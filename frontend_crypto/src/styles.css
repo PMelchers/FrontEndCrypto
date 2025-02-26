@@ -1,0 +1,208 @@
+/* Reset default margin and padding */
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure the root element takes up the full height */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Container for the entire app */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Main content area */
+.content {
+  flex: 1;
+  overflow-y: auto; /* Make the content area scrollable if it overflows */
+}
+
+/* Header styling */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #161b22;
+  color: #e6edf3;
+}
+
+.header .logo {
+  display: flex;
+  align-items: center;
+}
+
+.header .logo img {
+  width: 100px;
+  height: 100px;
+  margin-right: 10px;
+}
+
+.header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.header nav ul li {
+  display: inline;
+}
+
+.header nav ul li a {
+  color: #e6edf3;
+  text-decoration: none;
+}
+
+.header nav ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Footer styling */
+.footer {
+  background-color: #161b22;
+  color: #e6edf3;
+  padding: 20px;
+  text-align: center;
+}
+
+/* General styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #0d1117;
+  color: #e6edf3;
+}
+
+.App {
+  text-align: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.crypto-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+.crypto-table th, 
+.crypto-table td {
+  padding: 16px;
+  text-align: left;
+  border-top: 1px solid #30363d;
+}
+
+
+.crypto-table th {
+  background-color: #161b22;
+  color: #e6edf3;
+}
+
+.crypto-table th:hover {
+  background-color: #21262d;
+}
+
+.crypto-table tbody tr:hover {
+  background-color: #21262d;
+}
+
+.crypto-name {
+  display: flex;
+  align-items: center;
+}
+
+.crypto-name img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.price-up {
+  color: #16c784;
+  font-weight: bold;
+}
+
+.price-down {
+  color: #ea3943;
+  font-weight: bold;
+}
+
+.favorite-icon {
+  cursor: pointer;
+  color: #8b949e;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+
+.favorite-icon:hover, 
+.favorite-icon.active {
+  color: #facc15;
+}
+
+.more-info {
+  color: #58a6ff;
+  text-decoration: none;
+}
+
+.more-info:hover {
+  text-decoration: underline;
+}
+
+.trend-chart {
+  width: 300px;
+  height: 100px;
+}
+
+.crypto-table td {
+  vertical-align: middle;
+  height: 100px;
+}
+
+/* Zoekbalk */
+.search-bar {
+  width: 100%;
+  max-width: 600px; /* Voeg een maximale breedte toe voor betere leesbaarheid */
+  margin: 20px auto; /* Centreer de zoekbalk horizontaal en voeg wat marge toe boven en onder */
+  display: flex;
+  align-items: center;
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: transparent;
+  color: #e6edf3;
+  font-size: 1rem;
+}
+
+.search-bar input::placeholder {
+  color: #8b949e;
+}
+
+.search-bar button {
+  background-color: #21262d;
+  border: none;
+  color: #e6edf3;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 5px;
+  margin-left: 10px;
+  transition: background-color 0.3s;
+}
+
+.search-bar button:hover {
+  background-color: #30363d;
+
+}
