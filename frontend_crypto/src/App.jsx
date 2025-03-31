@@ -4,7 +4,7 @@ import Home from './pages/Home';
 import CoinDetailPage from './pages/CoinDetail';
 import Header from './components/Header'; // Import the Header component
 import Footer from './components/Footer'; // Import the Footer component
-import './styles.css';
+import './styles.css'; // Import the updated CSS file
 
 function App() {
   return (

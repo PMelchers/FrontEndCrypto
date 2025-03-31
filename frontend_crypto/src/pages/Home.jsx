@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getCryptoList } from '../services/api';
 import SearchBar from '../components/SearchBar';
 import CryptoTable from '../components/CryptoTable';
+import '../styles.css'; // Import the updated CSS file
 
 const Home = () => {
   const [cryptoData, setCryptoData] = useState([]);
@@ -20,7 +21,7 @@ const Home = () => {
   );
 
   return (
-    <div>
+    <div className="home-container">
       <h1>Crypto Dashboard</h1>
       <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <CryptoTable cryptoData={filteredCryptoData} />

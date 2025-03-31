@@ -1,4 +1,5 @@
 import logo from '../assets/Coin-radar-icon.png';
+import '../styles.css'; // Import the updated CSS file
 
 const Footer = () => {
   return (
