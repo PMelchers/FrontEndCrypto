@@ -48,3 +48,31 @@ export const getCoinDetails = async (coinId) => {
     return null;
   }
 };
+
+export const fetchMarketData = async () => {
+  try {
+    const response = await axios.get('https://api.coingecko.com/api/v3/coins/markets', {
+      params: {
+        vs_currency: 'usd', // Ensure this matches the currency you want
+        order: 'market_cap_desc',
+        per_page: 100,
+        page: 1,
+        sparkline: true,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching market data:', error);
+    throw new Error('Failed to fetch market data');
+  }
+};
+
+export const fetchTrendingCoins = async () => {
+  try {
+    const response = await axios.get('https://api.coingecko.com/api/v3/search/trending');
+    return response.data.coins; // Return the trending coins array
+  } catch (error) {
+    console.error('Error fetching trending coins:', error);
+    return [];
+  }
+};

@@ -1,6 +1,10 @@
 import CryptoItem from './CryptoItem';
 
-const CryptoList = ({ cryptoData, searchQuery }) => {
+const CryptoList = ({ cryptoData = [], searchQuery = '' }) => {
+  if (cryptoData.length === 0) {
+    return <div>No cryptocurrencies found.</div>;
+  }
+
   return (
     <div className="crypto-list">
       {cryptoData

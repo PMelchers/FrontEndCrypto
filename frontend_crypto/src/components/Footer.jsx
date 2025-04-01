@@ -1,20 +1,21 @@
-import logo from '../assets/Coin-radar-icon.png';
-import '../styles.css'; // Import the updated CSS file
-
-const Footer = () => {
+export default function Footer() {
   return (
     <footer className="footer">
-      <div className="footer-logo">
-        <img src={logo} alt="Coin Radar Logo" />
-        <h1>Coin Radar</h1>
-      </div>
-      <div className="footer-info">
-        <p>&copy; 2025 Coin Radar. All rights reserved.</p>
-        <p>Contact: info@coinradar.com</p>
-        <p>Address: 123 Crypto Street, Blockchain City</p>
+      <div className="container footer-container">
+        <p className="footer-text">© {new Date().getFullYear()} Coin Radar. All rights reserved.</p>
+        <div className="footer-links">
+          <a href="#" className="footer-link">
+            Privacy Policy
+          </a>
+          <a href="#" className="footer-link">
+            Terms of Service
+          </a>
+          <a href="#" className="footer-link">
+            Contact
+          </a>
+        </div>
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;

@@ -1,73 +1,117 @@
-import { useState } from 'react';
-import CryptoItem from './CryptoItem';
+"use client"
 
-const CryptoTable = ({ cryptoData }) => {
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+import { useContext } from "react"
+import { useNavigate } from "react-router-dom"
+import { FavoritesContext } from "../context/FavoritesContext"
 
-  const sortedData = [...cryptoData].sort((a, b) => {
-    if (sortConfig.key === 'favorites') {
-      const aFavorite = a.favorite ? 1 : 0;
-      const bFavorite = b.favorite ? 1 : 0;
-      return sortConfig.direction === 'ascending' ? bFavorite - aFavorite : aFavorite - bFavorite;
+export default function CryptoTable({ cryptos }) {
+  const navigate = useNavigate()
+  const { favorites, toggleFavorite } = useContext(FavoritesContext)
+
+  const handleRowClick = (id) => {
+    navigate(`/coin/${id}`)
+  }
+
+  const handleFavoriteClick = (e, crypto) => {
+    e.stopPropagation(); // Prevent the row click event
+    toggleFavorite(crypto.id); // Toggle the favorite status
+  }
+
+  const formatMarketCap = (marketCap) => {
+    if (marketCap >= 1e12) {
+      return `$${(marketCap / 1e12).toFixed(2)}T`
+    } else if (marketCap >= 1e9) {
+      return `$${(marketCap / 1e9).toFixed(2)}B`
+    } else if (marketCap >= 1e6) {
+      return `$${(marketCap / 1e6).toFixed(2)}M`
+    } else {
+      return `$${marketCap.toFixed(2)}`
     }
-
-    if (sortConfig.key) {
-      if (a[sortConfig.key] < b[sortConfig.key]) {
-        return sortConfig.direction === 'ascending' ? -1 : 1;
-      }
-      if (a[sortConfig.key] > b[sortConfig.key]) {
-        return sortConfig.direction === 'ascending' ? 1 : -1;
-      }
-      return 0;
-    }
-
-    return 0;
-  });
-
-  const handleSort = (key) => {
-    let direction = 'ascending';
-    if (sortConfig.key === key) {
-      if (sortConfig.direction === 'ascending') {
-        direction = 'descending';
-      } else if (sortConfig.direction === 'descending') {
-        direction = null;
-      }
-    }
-    setSortConfig({ key, direction });
-  };
-
-  const getSortIndicator = (key) => {
-    if (sortConfig.key === key) {
-      if (sortConfig.direction === 'ascending') return '↑';
-      if (sortConfig.direction === 'descending') return '↓';
-    }
-    return '';
-  };
+  }
 
   return (
-    <table className="crypto-table">
-      <thead>
-        <tr>
-          <th onClick={() => handleSort('favorites')}>⭐ {getSortIndicator('favorites')}</th>
-          <th onClick={() => handleSort('index')}># {getSortIndicator('index')}</th>
-          <th onClick={() => handleSort('name')}>Name {getSortIndicator('name')}</th>
-          <th onClick={() => handleSort('current_price')}>Price {getSortIndicator('current_price')}</th>
-          <th onClick={() => handleSort('price_change_percentage_1h_in_currency')}>1h % {getSortIndicator('price_change_percentage_1h_in_currency')}</th>
-          <th onClick={() => handleSort('price_change_percentage_24h_in_currency')}>24h % {getSortIndicator('price_change_percentage_24h_in_currency')}</th>
-          <th onClick={() => handleSort('price_change_percentage_7d_in_currency')}>7d % {getSortIndicator('price_change_percentage_7d_in_currency')}</th>
-          <th onClick={() => handleSort('market_cap')}>Market Cap {getSortIndicator('market_cap')}</th>
-          <th onClick={() => handleSort('total_volume')}>Volume (24h) {getSortIndicator('total_volume')}</th>
-          <th onClick={() => handleSort('circulating_supply')}>Circulating Supply {getSortIndicator('circulating_supply')}</th>
-          <th>7d Trend</th>
-        </tr>
-      </thead>
-      <tbody>
-        {sortedData.map((coin, index) => (
-          <CryptoItem key={coin.id} coin={coin} index={index} />
-        ))}
-      </tbody>
-    </table>
-  );
-};
+    <div className="card">
+      <table className="crypto-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>24h Change</th>
+            <th>Market Cap</th>
+            <th>Volume (24h)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cryptos.map((crypto) => {
+            const isFavorite = favorites.includes(crypto.id)
+            const priceChangeClass =
+              crypto.price_change_percentage_24h >= 0 ? "crypto-change positive" : "crypto-change negative"
 
-export default CryptoTable;
+            return (
+              <tr key={crypto.id} className="crypto-table-row" onClick={() => handleRowClick(crypto.id)}>
+                <td>
+                  <button
+                    className="btn btn-icon"
+                    onClick={(e) => handleFavoriteClick(e, crypto)}
+                    aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                  >
+                    {isFavorite ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="#f59e0b"
+                        stroke="#f59e0b"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                      </svg>
+                    )}
+                  </button>
+                </td>
+                <td>
+                  <div className="crypto-table-name">
+                    <img
+                      src={crypto.image || "/placeholder.svg"}
+                      alt={`${crypto.name} logo`}
+                      className="crypto-icon"
+                    />
+                    <div>
+                      <div className="crypto-name">{crypto.name}</div>
+                      <div className="crypto-symbol">{crypto.symbol.toUpperCase()}</div>
+                    </div>
+                  </div>
+                </td>
+                <td>${crypto.current_price.toLocaleString()}</td>
+                <td className={priceChangeClass}>
+                  {crypto.price_change_percentage_24h.toFixed(2)}%
+                </td>
+                <td>{formatMarketCap(crypto.market_cap)}</td>
+                <td>{formatMarketCap(crypto.total_volume)}</td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+

@@ -1,28 +1,46 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { FavoritesProvider } from './context/FavoritesContext';
-import Home from './pages/Home';
-import CoinDetailPage from './pages/CoinDetail';
-import Header from './components/Header'; // Import the Header component
-import Footer from './components/Footer'; // Import the Footer component
-import './styles.css'; // Import the updated CSS file
+"use client"
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { useState } from "react"
+import { FavoritesContext } from "./context/FavoritesContext"
+import Header from "./components/Header"
+import Footer from "./components/Footer"
+import Home from "./pages/Home"
+import CoinDetail from "./pages/CoinDetail"
 
 function App() {
+  const [favorites, setFavorites] = useState(() => {
+    const savedFavorites = localStorage.getItem("favorites")
+    return savedFavorites ? JSON.parse(savedFavorites) : []
+  })
+
+  const addFavorite = (crypto) => {
+    const newFavorites = [...favorites, crypto]
+    setFavorites(newFavorites)
+    localStorage.setItem("favorites", JSON.stringify(newFavorites))
+  }
+
+  const removeFavorite = (id) => {
+    const newFavorites = favorites.filter((crypto) => crypto.id !== id)
+    setFavorites(newFavorites)
+    localStorage.setItem("favorites", JSON.stringify(newFavorites))
+  }
+
   return (
-    <FavoritesProvider>
-      <div className="app-container">
-        <Router>
-          <Header />
-          <div className="content">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/coin/:coinId" element={<CoinDetailPage />} />
-            </Routes>
-          </div>
-        </Router>
+    <FavoritesContext.Provider value={{ favorites, addFavorite, removeFavorite }}>
+      <Router>
+        <Header />
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/coin/:id" element={<CoinDetail />} />
+          </Routes>
+        </main>
         <Footer />
-      </div>
-    </FavoritesProvider>
-  );
+      </Router>
+    </FavoritesContext.Provider>
+  )
 }
 
-export default App;
+export default App
+

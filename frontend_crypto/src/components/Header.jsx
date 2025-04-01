@@ -1,22 +1,25 @@
-import { Link } from 'react-router-dom';
-import logo from '../assets/Coin-radar-icon.png';
-import '../styles.css'; // Import the updated CSS file
+import { Link } from "react-router-dom"
 
-const Header = () => {
+export default function Header() {
   return (
     <header className="header">
-      <div className="logo">
-        <img src={logo} alt="Coin Radar Logo" />
-        <h1>Coin Radar</h1>
+      <div className="container header-container">
+        <Link to="/" className="logo">
+          <img src="/src/assets/Coin-radar-icon.png" alt="Coin Radar Logo" />
+          <span>Coin Radar</span>
+        </Link>
+        <nav>
+          <div className="nav-links">
+            <Link to="/" className="nav-link">
+              Home
+            </Link>
+            <Link to="/favorites" className="nav-link">
+              Favorites
+            </Link>
+          </div>
+        </nav>
       </div>
-      <nav>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          {/* Add more navigation links here if needed */}
-        </ul>
-      </nav>
     </header>
-  );
-};
+  )
+}
 
-export default Header;

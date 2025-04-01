@@ -1,11 +1,12 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import Chart from "chart.js/auto"
 
-export default function TrendChart({ data, title }) {
+export default function DetailedPriceChart({ data, coinId }) {
   const chartRef = useRef(null)
   const chartInstance = useRef(null)
+  const [timeframe, setTimeframe] = useState("7d")
 
   useEffect(() => {
     if (data && data.length > 0) {
@@ -16,13 +17,29 @@ export default function TrendChart({ data, title }) {
         chartInstance.current.destroy()
       }
 
+      // Filter data based on timeframe
+      let filteredData = data
+      if (timeframe === "1d") {
+        filteredData = data.slice(-24)
+      } else if (timeframe === "7d") {
+        filteredData = data.slice(-168)
+      } else if (timeframe === "30d") {
+        filteredData = data.slice(-720)
+      } else if (timeframe === "90d") {
+        filteredData = data.slice(-2160)
+      }
+
       // Prepare data
-      const labels = data.map((item) => {
+      const labels = filteredData.map((item) => {
         const date = new Date(item[0])
-        return date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
+        if (timeframe === "1d") {
+          return date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })
+        } else {
+          return date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
+        }
       })
 
-      const prices = data.map((item) => item[1])
+      const prices = filteredData.map((item) => item[1])
 
       // Determine chart color based on price trend
       const startPrice = prices[0]
@@ -45,7 +62,7 @@ export default function TrendChart({ data, title }) {
           labels: labels,
           datasets: [
             {
-              label: title || "Price Trend",
+              label: "Price",
               data: prices,
               borderColor: isPositive ? "#10b981" : "#ef4444",
               backgroundColor: gradient,
@@ -83,7 +100,7 @@ export default function TrendChart({ data, title }) {
               ticks: {
                 maxRotation: 0,
                 autoSkip: true,
-                maxTicksLimit: 6,
+                maxTicksLimit: 8,
               },
             },
             y: {
@@ -109,11 +126,46 @@ export default function TrendChart({ data, title }) {
         chartInstance.current.destroy()
       }
     }
-  }, [data, title])
+  }, [data, timeframe, coinId])
+
+  const handleTimeframeChange = (newTimeframe) => {
+    setTimeframe(newTimeframe)
+  }
 
   return (
-    <div className="chart-container">
-      <canvas ref={chartRef}></canvas>
+    <div className="card">
+      <div className="card-header">
+        <h3 className="card-title">Price Chart</h3>
+        <div className="timeframe-buttons">
+          <button
+            className={`btn btn-sm ${timeframe === "1d" ? "btn-primary" : "btn-outline"}`}
+            onClick={() => handleTimeframeChange("1d")}
+          >
+            1D
+          </button>
+          <button
+            className={`btn btn-sm ${timeframe === "7d" ? "btn-primary" : "btn-outline"}`}
+            onClick={() => handleTimeframeChange("7d")}
+          >
+            7D
+          </button>
+          <button
+            className={`btn btn-sm ${timeframe === "30d" ? "btn-primary" : "btn-outline"}`}
+            onClick={() => handleTimeframeChange("30d")}
+          >
+            30D
+          </button>
+          <button
+            className={`btn btn-sm ${timeframe === "90d" ? "btn-primary" : "btn-outline"}`}
+            onClick={() => handleTimeframeChange("90d")}
+          >
+            90D
+          </button>
+        </div>
+      </div>
+      <div className="chart-container">
+        <canvas ref={chartRef}></canvas>
+      </div>
     </div>
   )
 }
