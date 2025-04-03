@@ -121,7 +121,6 @@ export default function Home() {
 
       <div className="dashboard-grid">
         <div className="dashboard-main">
-          <SearchBar onSearch={handleSearch} />
 
           <div className="card">
             <div className="card-header">
@@ -130,14 +129,9 @@ export default function Home() {
             {cryptos.length > 0 && <MarketShareChart data={cryptos.slice(0, 10)} />}
           </div>
 
-          <div className="card">
-            <div className="card-header">
-              <h2 className="card-title">Bitcoin Price Trend (7 Days)</h2>
-            </div>
-            {bitcoinChartData.length > 0 && <TrendChart data={bitcoinChartData} title="Bitcoin Price" />}
-          </div>
-
           <Favorites />
+
+          <SearchBar onSearch={handleSearch} />
 
           <div className="card">
             <div className="card-header">

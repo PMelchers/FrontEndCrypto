@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { useContext } from "react"
-import { FavoritesContext } from "../context/FavoritesContext"
-import CryptoItem from "./CryptoItem"
+import { useContext } from "react";
+import { FavoritesContext } from "../context/FavoritesContext";
+import CryptoItem from "./CryptoItem";
 
 export default function Favorites() {
-  const { favorites } = useContext(FavoritesContext)
+  const { favorites } = useContext(FavoritesContext);
 
   return (
     <div className="favorites-container">
@@ -20,12 +20,12 @@ export default function Favorites() {
         </div>
       ) : (
         <div className="crypto-list">
-          {favorites.map((crypto) => (
-            <CryptoItem key={crypto.id} crypto={crypto} />
+          {favorites.map((crypto, index) => (
+            <CryptoItem key={crypto.id || index} crypto={crypto} />
           ))}
         </div>
       )}
     </div>
-  )
+  );
 }
 

@@ -187,6 +187,25 @@ body {
   padding: 0.5rem;
 }
 
+/* Favorite Button */
+.btn-icon {
+  width: 32px; /* Set a fixed size for the button */
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-right: 1rem; /* Add spacing between the button and the crypto name */
+}
+
+.btn-icon:hover {
+  background-color: #f1f5f9; /* Optional hover effect */
+  border-radius: 50%; /* Make the hover effect circular */
+}
+
 /* Form Styles */
 .form-group {
   margin-bottom: 1rem;
@@ -308,11 +327,6 @@ body {
 }
 
 .crypto-change {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; /* Align content to the left */
-  gap: 0.25rem;
-  font-size: 0.875rem;
   font-weight: 500;
 }
 

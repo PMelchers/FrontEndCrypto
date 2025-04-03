@@ -14,9 +14,13 @@ export const FavoritesProvider = ({ children }) => {
     localStorage.setItem('favorites', JSON.stringify(favorites));
   }, [favorites]);
 
-  const toggleFavorite = (coinId) => {
+  const toggleFavorite = (crypto) => {
+    if (!crypto || !crypto.id) return; // Ensure the crypto object is valid
+    console.log("Toggling favorite:", crypto); // Debugging log
     setFavorites((prev) =>
-      prev.includes(coinId) ? prev.filter((id) => id !== coinId) : [...prev, coinId]
+      prev.some((fav) => fav.id === crypto.id)
+        ? prev.filter((fav) => fav.id !== crypto.id)
+        : [...prev, crypto]
     );
   };
 

@@ -1,33 +1,33 @@
-"use client"
+"use client";
 
-import { useContext } from "react"
-import { useNavigate } from "react-router-dom"
-import { FavoritesContext } from "../context/FavoritesContext"
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { FavoritesContext } from "../context/FavoritesContext";
 
 export default function CryptoTable({ cryptos }) {
-  const navigate = useNavigate()
-  const { favorites, toggleFavorite } = useContext(FavoritesContext)
+  const navigate = useNavigate();
+  const { favorites, toggleFavorite } = useContext(FavoritesContext);
 
   const handleRowClick = (id) => {
-    navigate(`/coin/${id}`)
-  }
+    navigate(`/coin/${id}`);
+  };
 
   const handleFavoriteClick = (e, crypto) => {
     e.stopPropagation(); // Prevent the row click event
-    toggleFavorite(crypto.id); // Toggle the favorite status
-  }
+    toggleFavorite(crypto); // Pass the full crypto object
+  };
 
   const formatMarketCap = (marketCap) => {
     if (marketCap >= 1e12) {
-      return `$${(marketCap / 1e12).toFixed(2)}T`
+      return `$${(marketCap / 1e12).toFixed(2)}T`;
     } else if (marketCap >= 1e9) {
-      return `$${(marketCap / 1e9).toFixed(2)}B`
+      return `$${(marketCap / 1e9).toFixed(2)}B`;
     } else if (marketCap >= 1e6) {
-      return `$${(marketCap / 1e6).toFixed(2)}M`
+      return `$${(marketCap / 1e6).toFixed(2)}M`;
     } else {
-      return `$${marketCap.toFixed(2)}`
+      return `$${marketCap.toFixed(2)}`;
     }
-  }
+  };
 
   return (
     <div className="card">
@@ -44,9 +44,7 @@ export default function CryptoTable({ cryptos }) {
         </thead>
         <tbody>
           {cryptos.map((crypto) => {
-            const isFavorite = favorites.includes(crypto.id)
-            const priceChangeClass =
-              crypto.price_change_percentage_24h >= 0 ? "crypto-change positive" : "crypto-change negative"
+            const isFavorite = favorites.includes(crypto.id);
 
             return (
               <tr key={crypto.id} className="crypto-table-row" onClick={() => handleRowClick(crypto.id)}>
@@ -62,7 +60,7 @@ export default function CryptoTable({ cryptos }) {
                         width="16"
                         height="16"
                         viewBox="0 0 24 24"
-                        fill="#f59e0b"
+                        fill="#f59e0b" /* Filled star for favorite */
                         stroke="#f59e0b"
                         strokeWidth="2"
                         strokeLinecap="round"
@@ -76,7 +74,7 @@ export default function CryptoTable({ cryptos }) {
                         width="16"
                         height="16"
                         viewBox="0 0 24 24"
-                        fill="none"
+                        fill="none" /* Empty star for non-favorite */
                         stroke="currentColor"
                         strokeWidth="2"
                         strokeLinecap="round"
@@ -101,17 +99,19 @@ export default function CryptoTable({ cryptos }) {
                   </div>
                 </td>
                 <td>${crypto.current_price.toLocaleString()}</td>
-                <td className={priceChangeClass}>
-                  {crypto.price_change_percentage_24h.toFixed(2)}%
+                <td className={crypto.price_change_percentage_24h >= 0 ? "crypto-change positive" : "crypto-change negative"}>
+                  {crypto.price_change_percentage_24h < 0
+                    ? `-${Math.abs(crypto.price_change_percentage_24h).toFixed(2)}%`
+                    : `${crypto.price_change_percentage_24h.toFixed(2)}%`}
                 </td>
                 <td>{formatMarketCap(crypto.market_cap)}</td>
                 <td>{formatMarketCap(crypto.total_volume)}</td>
               </tr>
-            )
+            );
           })}
         </tbody>
       </table>
     </div>
-  )
+  );
 }
 

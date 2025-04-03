@@ -56,21 +56,21 @@ export default function CoinDetail() {
 
   const handleFavoriteClick = () => {
     if (isFavorite) {
-      removeFavorite(id)
+      removeFavorite(id);
     } else if (coin) {
       const simplifiedCoin = {
         id: coin.id,
         name: coin.name,
         symbol: coin.symbol,
-        image: coin.image.small,
-        current_price: coin.market_data.current_price.usd,
-        price_change_percentage_24h: coin.market_data.price_change_percentage_24h,
-        market_cap: coin.market_data.market_cap.usd,
-        total_volume: coin.market_data.total_volume.usd,
-      }
-      addFavorite(simplifiedCoin)
+        image: coin.image?.small || "/placeholder.svg",
+        current_price: coin.market_data?.current_price?.usd || 0,
+        price_change_percentage_24h: coin.market_data?.price_change_percentage_24h || 0,
+        market_cap: coin.market_data?.market_cap?.usd || 0,
+        total_volume: coin.market_data?.total_volume?.usd || 0,
+      };
+      addFavorite(simplifiedCoin);
     }
-  }
+  };
 
   const formatNumber = (num) => {
     if (num >= 1e12) {
