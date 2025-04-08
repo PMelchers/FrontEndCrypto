@@ -11,12 +11,10 @@ export default function TrendChart({ data, title }) {
     if (data && data.length > 0) {
       const ctx = chartRef.current.getContext("2d")
 
-      // Destroy previous chart if it exists
       if (chartInstance.current) {
         chartInstance.current.destroy()
       }
 
-      // Prepare data
       const labels = data.map((item) => {
         const date = new Date(item[0])
         return date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
@@ -24,7 +22,6 @@ export default function TrendChart({ data, title }) {
 
       const prices = data.map((item) => item[1])
 
-      // Determine chart color based on price trend
       const startPrice = prices[0]
       const endPrice = prices[prices.length - 1]
       const isPositive = endPrice >= startPrice
@@ -38,7 +35,6 @@ export default function TrendChart({ data, title }) {
         gradient.addColorStop(1, "rgba(239, 68, 68, 0)")
       }
 
-      // Create chart
       chartInstance.current = new Chart(ctx, {
         type: "line",
         data: {

@@ -11,16 +11,13 @@ export default function MarketShareChart({ data }) {
     if (data && data.length > 0) {
       const ctx = chartRef.current.getContext("2d")
 
-      // Destroy previous chart if it exists
       if (chartInstance.current) {
         chartInstance.current.destroy()
       }
 
-      // Prepare data
       const labels = data.map((item) => item.name)
       const marketCaps = data.map((item) => item.market_cap)
 
-      // Generate colors
       const colors = [
         "#2563eb",
         "#f59e0b",
@@ -34,7 +31,6 @@ export default function MarketShareChart({ data }) {
         "#6366f1",
       ]
 
-      // Create chart
       chartInstance.current = new Chart(ctx, {
         type: "doughnut",
         data: {

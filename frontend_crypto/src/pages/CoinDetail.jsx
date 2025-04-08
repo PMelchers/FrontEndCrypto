@@ -20,7 +20,6 @@ export default function CoinDetail() {
       try {
         setIsLoading(true)
 
-        // Fetch coin details
         const coinResponse = await fetch(
           `https://api.coingecko.com/api/v3/coins/${id}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false`,
         )
@@ -32,7 +31,6 @@ export default function CoinDetail() {
         const coinData = await coinResponse.json()
         setCoin(coinData)
 
-        // Fetch chart data
         const chartResponse = await fetch(
           `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=90`,
         )
@@ -96,7 +94,6 @@ export default function CoinDetail() {
     )
   }
 
-  // Ensure we have the required data before rendering
   const priceChangeClass =
     (coin.market_data?.price_change_percentage_24h || 0) >= 0 ? "crypto-change positive" : "crypto-change negative"
 

@@ -22,16 +22,15 @@ export default function Home() {
       try {
         setIsLoading(true)
 
-        // Fetch market data
+
         const marketData = await fetchMarketData()
         setCryptos(marketData)
         setFilteredCryptos(marketData)
 
-        // Fetch trending coins
+
         const trending = await fetchTrendingCoins()
         setTrendingCoins(trending)
 
-        // Fetch Bitcoin chart data for the last 7 days
         const bitcoinData = await fetch(
           "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=7",
         ).then((res) => res.json())

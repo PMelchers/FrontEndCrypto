@@ -12,12 +12,12 @@ export default function DetailedPriceChart({ data, coinId }) {
     if (data && data.length > 0) {
       const ctx = chartRef.current.getContext("2d")
 
-      // Destroy previous chart if it exists
+
       if (chartInstance.current) {
         chartInstance.current.destroy()
       }
 
-      // Filter data based on timeframe
+
       let filteredData = data
       if (timeframe === "1d") {
         filteredData = data.slice(-24)
@@ -29,7 +29,6 @@ export default function DetailedPriceChart({ data, coinId }) {
         filteredData = data.slice(-2160)
       }
 
-      // Prepare data
       const labels = filteredData.map((item) => {
         const date = new Date(item[0])
         if (timeframe === "1d") {
@@ -41,7 +40,7 @@ export default function DetailedPriceChart({ data, coinId }) {
 
       const prices = filteredData.map((item) => item[1])
 
-      // Determine chart color based on price trend
+
       const startPrice = prices[0]
       const endPrice = prices[prices.length - 1]
       const isPositive = endPrice >= startPrice
@@ -55,7 +54,6 @@ export default function DetailedPriceChart({ data, coinId }) {
         gradient.addColorStop(1, "rgba(239, 68, 68, 0)")
       }
 
-      // Create chart
       chartInstance.current = new Chart(ctx, {
         type: "line",
         data: {
