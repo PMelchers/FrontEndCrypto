@@ -1,19 +1,19 @@
-import CryptoItem from './CryptoItem';
+import CryptoItem from "./CryptoItem"
 
-const CryptoList = ({ cryptoData = [], searchQuery = '' }) => {
+const CryptoList = ({ cryptoData = [], searchQuery = "" }) => {
   if (cryptoData.length === 0) {
-    return <div>No cryptocurrencies found.</div>;
+    return <div>No cryptocurrencies found.</div>
   }
 
   return (
     <div className="crypto-list">
       {cryptoData
-        .filter((coin) => coin.name.toLowerCase().includes(searchQuery.toLowerCase()))
-        .map((coin) => (
-          <CryptoItem key={coin.id} coin={coin} />
+        .filter((crypto) => crypto.name.toLowerCase().includes(searchQuery.toLowerCase()))
+        .map((crypto) => (
+          <CryptoItem key={crypto.id} crypto={crypto} />
         ))}
     </div>
-  );
-};
+  )
+}
 
-export default CryptoList;
+export default CryptoList
